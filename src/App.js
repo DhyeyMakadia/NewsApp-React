@@ -6,7 +6,8 @@ import News from './components/News'
 export default class App extends Component {
   // pageSize=8;
   country='in';
-  api='b635ea336a764552a46978b87e2a69d6';
+  // api='b635ea336a764552a46978b87e2a69d6';
+  api='d107bf3633a84d4dab858d5d49c27410';
   render() {
     return (
       <>

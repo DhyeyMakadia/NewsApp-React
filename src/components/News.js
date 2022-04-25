@@ -13,7 +13,7 @@ export default class News extends Component {
 
     static propTypes = {
         country:PropTypes.string,
-        categoory:PropTypes.string
+        category:PropTypes.string
     }
 
     constructor(){
@@ -21,7 +21,7 @@ export default class News extends Component {
         this.state = {
             articles: [],
             loading:false,
-            page:2,
+            page:0,
             totalResults:0
         }
     }
@@ -31,8 +31,6 @@ export default class News extends Component {
     }
 
     async componentDidMount(){
-        // const updateNews = async ()=>{
-            console.log("Total Results: "+this.state.totalResults);
             let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api}&page=${this.state.page}&pageSize=5`;
             document.title = `NewsMonkey - ${this.Capitalize(this.props.category)}`
             this.setState({loading:true});
@@ -41,36 +39,24 @@ export default class News extends Component {
             this.setState({
                 articles:parsedData.articles,
                 totalResults:parsedData.totalResults,
-                loading:false
+                loading:false,
+                page: (this.state.page + 1)
             });
-        // }
-        // updateNews();
-    }
-
-    pageInc = async ()=>{
-        this.setState({
-            page: this.state.page + 1
-        });
     }
 
     fetchMoreData = async ()=>{
-        await this.pageInc();
-        // console.log("Total Results: "+this.state.totalResults);
-        console.log("This is my page count1: "+this.state.page);
 
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.api}&page=${this.state.page}&pageSize=5`;
-
         this.setState({loading:true});
-
         let data = await fetch(url);
         let parsedData = await data.json();
-
         this.setState({
             articles: this.state.articles.concat(parsedData.articles),
             totalResults:parsedData.totalResults,
-            loading:false
+            loading:false,
+            page:(this.state.page + 1)
         });
-        console.log("This is my page count2: "+this.state.page);
+
     }
 
     // HandlePrevClick = async ()=>{
